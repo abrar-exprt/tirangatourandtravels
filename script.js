@@ -10,16 +10,16 @@
   var TEL     = 'tel:+919541971058';
 
   var FB_CFG = {
-    apiKey:            "AIzaSyDtfrU0CjLtZJ_MAMinagfynegNL9eQYWQ",
-    authDomain:        "trip-orbit.firebaseapp.com",
-    projectId:         "trip-orbit",
-    storageBucket:     "trip-orbit.firebasestorage.app",
-    messagingSenderId: "892020500031",
-    appId:             "1:892020500031:web:a1bb7595868c84c30999d0"
+    apiKey:            "AIzaSyCbsulWfheIDKZt5OShd82rkA9WVjXn2Xk",
+    authDomain:        "tirangatourandtravels.firebaseapp.com",
+    projectId:         "tirangatourandtravels",
+    storageBucket:     "tirangatourandtravels.firebasestorage.app",
+    messagingSenderId: "62225585711",
+    appId:             "1:62225585711:web:3540a255538d3556b758da"
   };
 
   var COLS = {
-    tours: 'triporbit_tours', cars: 'triporbit_cars',
+    tours: 'triporbit_tours', cars: 'triporbit_cars', hotels: 'triporbit_hotels',
     gallery: 'triporbit_gallery', enquiries: 'triporbit_enquiries'
   };
 
@@ -90,6 +90,33 @@
       desc:'20-seater for large group tours and corporate travel.' }
   ];
 
+  var DEF_HOTELS = [
+    { id:'h1', name:'The Khyber Himalayan Resort & Spa', sub:'Gulmarg &bull; Luxury', featured:true, order:1, price:'₹18,000/night',
+      image:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=85',
+      specs:['Mountain View','Spa & Wellness','Fine Dining','Free WiFi','24hr Front Desk'],
+      desc:'A five-star Himalayan retreat with panoramic Gulmarg views, world-class spa and gourmet dining.' },
+    { id:'h2', name:'Vivanta Dal View', sub:'Srinagar &bull; Premium', featured:false, order:2, price:'₹9,500/night',
+      image:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=85',
+      specs:['Dal Lake View','Rooftop Restaurant','Free WiFi','Room Service','Parking'],
+      desc:'Elegant lakeside hotel overlooking Dal Lake, minutes from Srinagar&rsquo;s main attractions.' },
+    { id:'h3', name:'Pahalgam Woodstock Inn', sub:'Pahalgam &bull; Mid-range', featured:false, order:3, price:'₹5,500/night',
+      image:'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&q=85',
+      specs:['River View','Bonfire Nights','Free Breakfast','Free WiFi','Family Rooms'],
+      desc:'Cosy riverside property in Pahalgam, perfect for families and nature lovers.' },
+    { id:'h4', name:'Gurez Valley Homestay', sub:'Gurez &bull; Local Experience', featured:false, order:4, price:'₹2,800/night',
+      image:'https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=600&q=85',
+      specs:['Authentic Dard Cuisine','Mountain View','Homely Stay','Local Host','Bonfire'],
+      desc:'Experience genuine Gurez hospitality with a local family, home-cooked meals and mountain views.' },
+    { id:'h5', name:'Sonamarg Glacier Cottages', sub:'Sonamarg &bull; Boutique', featured:false, order:5, price:'₹6,200/night',
+      image:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=85',
+      specs:['Glacier View','Bonfire Nights','Free Breakfast','Heated Rooms','Free WiFi'],
+      desc:'Boutique wooden cottages near Thajiwas Glacier with cozy heated rooms and mountain views.' },
+    { id:'h6', name:'Srinagar Deluxe Houseboat', sub:'Dal Lake &bull; Signature', featured:false, order:6, price:'₹7,800/night',
+      image:'https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=600&q=85',
+      specs:['Private Shikara','Traditional Décor','All Meals','Free WiFi','Lake Views'],
+      desc:'Traditional carved-wood houseboat stay on Dal Lake with private shikara rides and home-style meals.' }
+  ];
+
   var DEF_GAL = [
     { id:'g1', url:'https://images.unsplash.com/photo-1626714638456-5f14c9427ad4?w=800&q=85', caption:'Gurez Valley', cat:'gurez', order:1 },
     { id:'g2', url:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=85', caption:'Kashmir Mountains', cat:'kashmir', order:2 },
@@ -105,6 +132,7 @@
   /* ── STATE ─────────────────────────────────────────────────── */
   var toursData = DEF_TOURS.slice();
   var carsData  = DEF_CARS.slice();
+  var hotelsData = DEF_HOTELS.slice();
   var galData   = DEF_GAL.slice();
   var lbIdx     = 0;
   var lbList    = galData;
@@ -172,7 +200,11 @@
     var sy = window.scrollY;
     if (nav) nav.classList.toggle('sc', sy > 80);
     if (sct) sct.classList.toggle('show', sy > 500);
-    if (sbb) sbb.classList.toggle('show', sy > 700);
+    if (sbb) {
+      var footerEl = document.querySelector('footer');
+      var nearFooter = footerEl && (sy + window.innerHeight) > (footerEl.offsetTop + 40);
+      sbb.classList.toggle('show', sy > 700 && !nearFooter);
+    }
   }, { passive: true });
 
   if (hbg && nl) {
@@ -410,6 +442,49 @@
   }
 
   /* ══════════════════════════════════════════════════
+     HOTELS
+  ══════════════════════════════════════════════════ */
+  function renderHotels(data) {
+    var grid = document.getElementById('hotelsGrid');
+    if (!grid) return;
+    grid.innerHTML = data.map(function(h) {
+      var wa = 'https://wa.me/' + WA_NUM + '?text=Hi!%20I%20want%20to%20book%20' + encodeURIComponent(h.name || '') + '%20in%20Kashmir.';
+      var specs = (h.specs || []).map(function(s) {
+        return '<span class="car-spec"><i class="fas fa-check"></i>' + s + '</span>';
+      }).join('');
+      return '<div class="car-card rv">'
+        + '<div class="car-img">'
+        + (h.featured ? '<div style="position:absolute;top:12px;left:12px;z-index:2"><span class="car-feat"><i class="fas fa-star"></i> Most Popular</span></div>' : '')
+        + (h.price ? '<div style="position:absolute;top:12px;right:12px;z-index:2"><span class="car-feat" style="background:linear-gradient(135deg,var(--royal),var(--royal-mid))">' + h.price + '</span></div>' : '')
+        + '<img src="' + fbImg(h.image, 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600') + '" alt="' + (h.name || '') + '" loading="lazy" onerror="this.src=\'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600\'">'
+        + '</div>'
+        + '<div class="car-body">'
+        + '<span class="car-sub">' + (h.sub || '') + '</span>'
+        + '<h3>' + (h.name || '') + '</h3>'
+        + '<div class="car-specs">' + specs + '</div>'
+        + '<p style="font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:14px">' + (h.desc || h.description || '') + '</p>'
+        + '<a href="' + wa + '" target="_blank" class="btn btn-wa" style="width:100%;justify-content:center"><i class="fab fa-whatsapp"></i> Book on WhatsApp</a>'
+        + '</div></div>';
+    }).join('');
+    obs(grid);
+  }
+
+  function loadHotels() {
+    renderHotels(hotelsData);
+    onFB(function(db, f) {
+      f.getDocs(f.collection(db, COLS.hotels))
+        .then(function(snap) {
+          if (!snap.empty) {
+            hotelsData = [];
+            snap.forEach(function(d) { hotelsData.push(Object.assign({ id: d.id }, d.data())); });
+            hotelsData.sort(function(a,b){ return (parseInt(a.order)||99) - (parseInt(b.order)||99); });
+            renderHotels(hotelsData);
+          }
+        }).catch(function(err) { console.warn('Hotels load error:', err); });
+    });
+  }
+
+  /* ══════════════════════════════════════════════════
      GALLERY
   ══════════════════════════════════════════════════ */
   function renderGal(cat) {
@@ -527,10 +602,12 @@
   if (page === 'index.html' || page === '') { loadTours(); loadGallery(); }
   if (page === 'tours.html')                { loadTours(); }
   if (page === 'cars.html')                 { loadCars(); }
+  if (page === 'hotels.html')               { loadHotels(); }
 
   // Safety catch-all — if grids exist on page, load data
   if (document.getElementById('toursGrid') && page !== 'index.html' && page !== 'tours.html') loadTours();
   if (document.getElementById('carsGrid')  && page !== 'cars.html')  loadCars();
+  if (document.getElementById('hotelsGrid') && page !== 'hotels.html') loadHotels();
   if (document.getElementById('galGrid')   && page !== 'index.html') loadGallery();
 
 })();

@@ -222,6 +222,8 @@ input,select,textarea{font-family:inherit;box-sizing:border-box}
     <div class="ni on" data-sec="dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</div>
     <div class="sec-lbl">Manage Content</div>
     <div class="ni" data-sec="tours"><i class="fas fa-compass"></i>Tour Packages</div>
+    <div class="ni" data-sec="cars"><i class="fas fa-car"></i>Vehicles / Fleet</div>
+    <div class="ni" data-sec="hotels"><i class="fas fa-hotel"></i>Hotels &amp; Stays</div>
     <div class="ni" data-sec="gallery"><i class="fas fa-images"></i>Gallery Images</div>
     <div class="sec-lbl">Leads</div>
     <div class="ni" data-sec="enquiries"><i class="fas fa-envelope"></i>Enquiries</div>
@@ -251,14 +253,20 @@ input,select,textarea{font-family:inherit;box-sizing:border-box}
     <div class="panel on" id="sec-dashboard">
       <div class="st-row">
         <div class="sc"><div class="sc-ico" style="background:rgba(51,102,255,.1)"><i class="fas fa-compass" style="color:var(--royal)"></i></div><div><span class="sc-n" id="cT">—</span><span class="sc-l">Tour Packages</span></div></div>
+        <div class="sc"><div class="sc-ico" style="background:rgba(0,194,110,.1)"><i class="fas fa-car" style="color:var(--gold)"></i></div><div><span class="sc-n" id="cC">—</span><span class="sc-l">Vehicles</span></div></div>
+        <div class="sc"><div class="sc-ico" style="background:rgba(51,102,255,.1)"><i class="fas fa-hotel" style="color:var(--royal)"></i></div><div><span class="sc-n" id="cH">—</span><span class="sc-l">Hotels</span></div></div>
         <div class="sc"><div class="sc-ico" style="background:rgba(59,130,246,.1)"><i class="fas fa-images" style="color:var(--sky)"></i></div><div><span class="sc-n" id="cG">—</span><span class="sc-l">Gallery Images</span></div></div>
         <div class="sc"><div class="sc-ico" style="background:rgba(34,197,94,.1)"><i class="fas fa-envelope" style="color:var(--green)"></i></div><div><span class="sc-n" id="cE">—</span><span class="sc-l">Enquiries</span></div></div>
       </div>
       <div class="qa">
         <button class="qa-b" onclick="sw('tours')"><i class="fas fa-plus"></i> Add Tour Package</button>
+        <button class="qa-b" onclick="sw('cars')"><i class="fas fa-car"></i> Add Vehicle</button>
+        <button class="qa-b" onclick="sw('hotels')"><i class="fas fa-hotel"></i> Add Hotel</button>
         <button class="qa-b" onclick="sw('gallery')"><i class="fas fa-images"></i> Add Gallery Image</button>
         <button class="qa-b" onclick="sw('enquiries')"><i class="fas fa-envelope"></i> View Enquiries</button>
         <a href="tours.html" target="_blank" class="qa-b"><i class="fas fa-compass"></i> Tour Page</a>
+        <a href="cars.html" target="_blank" class="qa-b"><i class="fas fa-car"></i> Vehicles Page</a>
+        <a href="hotels.html" target="_blank" class="qa-b"><i class="fas fa-hotel"></i> Hotels Page</a>
         <a href="index.html" target="_blank" class="qa-b"><i class="fas fa-eye"></i> Live Site</a>
       </div>
       <div class="dg">
@@ -281,6 +289,42 @@ input,select,textarea{font-family:inherit;box-sizing:border-box}
         <table class="at">
           <thead><tr><th>Photo</th><th>Title</th><th>Category</th><th>Duration</th><th>Group Size</th><th>Order</th><th>Actions</th></tr></thead>
           <tbody id="tBody"><tr><td colspan="7" class="l-row"><i class="fas fa-spinner fa-spin"></i> Loading tours...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VEHICLES -->
+    <div class="panel" id="sec-cars">
+      <div class="ph">
+        <span class="ph-title">Vehicles / Fleet <small id="cCnt"></small></span>
+        <button class="b-add" onclick="openCM(null)"><i class="fas fa-plus"></i> Add New Vehicle</button>
+      </div>
+      <p style="font-size:12px;color:var(--t2);margin-bottom:12px;padding:10px 14px;background:#fff;border-radius:var(--r);box-shadow:var(--sh)">
+        <i class="fas fa-info-circle" style="color:var(--sky);margin-right:5px"></i>
+        Changes appear live on <a href="cars.html" target="_blank" style="color:var(--royal);font-weight:600">cars.html</a> after saving.
+      </p>
+      <div class="tw">
+        <table class="at">
+          <thead><tr><th>Photo</th><th>Name</th><th>Type</th><th>Featured</th><th>Order</th><th>Actions</th></tr></thead>
+          <tbody id="cBody"><tr><td colspan="6" class="l-row"><i class="fas fa-spinner fa-spin"></i></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HOTELS -->
+    <div class="panel" id="sec-hotels">
+      <div class="ph">
+        <span class="ph-title">Hotels &amp; Stays <small id="hCnt"></small></span>
+        <button class="b-add" onclick="openHM(null)"><i class="fas fa-plus"></i> Add New Hotel</button>
+      </div>
+      <p style="font-size:12px;color:var(--t2);margin-bottom:12px;padding:10px 14px;background:#fff;border-radius:var(--r);box-shadow:var(--sh)">
+        <i class="fas fa-info-circle" style="color:var(--sky);margin-right:5px"></i>
+        Changes appear live on <a href="hotels.html" target="_blank" style="color:var(--royal);font-weight:600">hotels.html</a> after saving.
+      </p>
+      <div class="tw">
+        <table class="at">
+          <thead><tr><th>Photo</th><th>Name</th><th>Location</th><th>Price</th><th>Featured</th><th>Order</th><th>Actions</th></tr></thead>
+          <tbody id="hBody"><tr><td colspan="7" class="l-row"><i class="fas fa-spinner fa-spin"></i></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -324,7 +368,7 @@ input,select,textarea{font-family:inherit;box-sizing:border-box}
           <div class="mf"><label>Phone / WhatsApp</label><input id="sPhone" value="+91 9541971058"/></div>
           <div class="mf"><label>Email</label><input id="sEmail" value="tirangatravels1@gmail.com"/></div>
         </div>
-        <div class="mf"><label>Address</label><input id="sAddr" value="Markoot, Gurez, Jammu &amp; Kashmir, India"/></div>
+        <div class="mf"><label>Address</label><input id="sAddr" value="Galander, Pampore, 192121, Jammu &amp; Kashmir, India"/></div>
         <div class="mfr">
           <div class="mf"><label>Website URL</label><input id="sURL" value="https://tirangatourandtravels.com"/></div>
           <div class="mf"><label>Facebook URL</label><input id="sFB" value="" placeholder="https://facebook.com/..."/></div>
@@ -335,9 +379,11 @@ input,select,textarea{font-family:inherit;box-sizing:border-box}
       <div class="set-note">
         <strong>Firebase Collections connected to public pages:</strong><br/>
         <code>triporbit_tours</code> &rarr; tours.html + homepage &nbsp;&bull;&nbsp;
+        <code>triporbit_cars</code> &rarr; cars.html &nbsp;&bull;&nbsp;
+        <code>triporbit_hotels</code> &rarr; hotels.html &nbsp;&bull;&nbsp;
         <code>triporbit_gallery</code> &rarr; homepage gallery &nbsp;&bull;&nbsp;
         <code>triporbit_enquiries</code> &rarr; contact form submissions<br/><br/>
-        <strong>How changes appear on website:</strong> Save a tour/image here &rarr; visitor refreshes the page &rarr; new data appears automatically.<br/><br/>
+        <strong>How changes appear on website:</strong> Save a tour/vehicle/hotel/image here &rarr; visitor refreshes the page &rarr; new data appears automatically.<br/><br/>
         <strong>Firestore Rules:</strong> <code>allow read: if true; allow write: if request.auth != null;</code>
       </div>
     </div>
@@ -398,6 +444,67 @@ input,select,textarea{font-family:inherit;box-sizing:border-box}
 </div>
 
 
+<!-- ══ CAR MODAL ══ -->
+<div class="mov" id="cMov">
+  <div class="mbox">
+    <button class="mc" onclick="closeMov('cMov')"><i class="fas fa-times"></i></button>
+    <h3 id="cMTitle">Add Vehicle</h3>
+    <input type="hidden" id="cId"/>
+    <div class="mfr">
+      <div class="mf"><label>Vehicle Name *</label><input id="cName" placeholder="Toyota Innova Crysta"/></div>
+      <div class="mf"><label>Subtitle / Type</label><input id="cSub" placeholder="Premium MPV / SUV 4WD"/></div>
+    </div>
+    <div class="mf">
+      <label>Image URL *</label>
+      <input id="cImg" placeholder="https://images.unsplash.com/photo-...?w=600&q=85" oninput="prevImg('cImg','cImgP')"/>
+      <img id="cImgP" class="img-prev" src="" alt="Preview"/>
+    </div>
+    <div class="mf"><label>Specs (comma separated)</label><input id="cSpecs" placeholder="7 Passengers, 4 Bags, AC + Heater, GPS Tracked, Local Driver"/></div>
+    <div class="mf"><label>Description</label><textarea id="cDesc" rows="3" placeholder="Vehicle description shown on cars page..."></textarea></div>
+    <div class="mfr">
+      <div class="mf"><label>Mark as Featured (Most Popular)?</label>
+        <select id="cFeat"><option value="false">No</option><option value="true">Yes &mdash; Show badge</option></select>
+      </div>
+      <div class="mf"><label>Display Order (1 = first)</label><input type="number" id="cOrder" placeholder="1" min="1"/></div>
+    </div>
+    <div class="mfoot">
+      <button class="b-cancel" onclick="closeMov('cMov')">Cancel</button>
+      <button class="b-save" onclick="saveCar()"><i class="fas fa-save"></i> Save Vehicle</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HOTEL MODAL ══ -->
+<div class="mov" id="hMov">
+  <div class="mbox">
+    <button class="mc" onclick="closeMov('hMov')"><i class="fas fa-times"></i></button>
+    <h3 id="hMTitle">Add Hotel</h3>
+    <input type="hidden" id="hId"/>
+    <div class="mfr">
+      <div class="mf"><label>Hotel Name *</label><input id="hName" placeholder="The Khyber Himalayan Resort & Spa"/></div>
+      <div class="mf"><label>Location / Category</label><input id="hSub" placeholder="Gulmarg &bull; Luxury"/></div>
+    </div>
+    <div class="mfr">
+      <div class="mf"><label>Price (display text)</label><input id="hPrice" placeholder="₹18,000/night"/></div>
+      <div class="mf"><label>Display Order (1 = first)</label><input type="number" id="hOrder" placeholder="1" min="1"/></div>
+    </div>
+    <div class="mf">
+      <label>Image URL *</label>
+      <input id="hImg" placeholder="https://images.unsplash.com/photo-...?w=600&q=85" oninput="prevImg('hImg','hImgP')"/>
+      <img id="hImgP" class="img-prev" src="" alt="Preview"/>
+    </div>
+    <div class="mf"><label>Amenities (comma separated)</label><input id="hSpecs" placeholder="Mountain View, Spa & Wellness, Free WiFi, Fine Dining, 24hr Front Desk"/></div>
+    <div class="mf"><label>Description</label><textarea id="hDesc" rows="3" placeholder="Hotel description shown on hotels page..."></textarea></div>
+    <div class="mf"><label>Mark as Featured (Most Popular)?</label>
+      <select id="hFeat"><option value="false">No</option><option value="true">Yes &mdash; Show badge</option></select>
+    </div>
+    <div class="mfoot">
+      <button class="b-cancel" onclick="closeMov('hMov')">Cancel</button>
+      <button class="b-save" onclick="saveHotel()"><i class="fas fa-save"></i> Save Hotel</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ GALLERY MODAL ══ -->
 <div class="mov" id="gMov">
   <div class="mbox">
@@ -455,18 +562,18 @@ import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const FB = {
-  apiKey:"AIzaSyDtfrU0CjLtZJ_MAMinagfynegNL9eQYWQ",
-  authDomain:"trip-orbit.firebaseapp.com",
-  projectId:"trip-orbit",
-  storageBucket:"trip-orbit.firebasestorage.app",
-  messagingSenderId:"892020500031",
-  appId:"1:892020500031:web:a1bb7595868c84c30999d0"
+  apiKey:"AIzaSyCbsulWfheIDKZt5OShd82rkA9WVjXn2Xk",
+  authDomain:"tirangatourandtravels.firebaseapp.com",
+  projectId:"tirangatourandtravels",
+  storageBucket:"tirangatourandtravels.firebasestorage.app",
+  messagingSenderId:"62225585711",
+  appId:"1:62225585711:web:3540a255538d3556b758da"
 };
 const app  = initializeApp(FB);
 const db   = getFirestore(app);
 const auth = getAuth(app);
 const C = {
-  t:'triporbit_tours',
+  t:'triporbit_tours', c:'triporbit_cars', h:'triporbit_hotels',
   g:'triporbit_gallery', e:'triporbit_enquiries', s:'triporbit_settings'
 };
 
@@ -519,7 +626,7 @@ window.sw=function(sec){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   document.getElementById('sec-'+sec)?.classList.add('on');
   document.getElementById('pgLbl').textContent=document.querySelector('.ni[data-sec="'+sec+'"]')?.textContent.trim()||sec;
-  ({dashboard:loadDash,tours:loadTours,gallery:loadGallery,enquiries:loadEnq})[sec]?.();
+  ({dashboard:loadDash,tours:loadTours,cars:loadCars,hotels:loadHotels,gallery:loadGallery,enquiries:loadEnq})[sec]?.();
 };
 document.getElementById('togBtn').addEventListener('click',()=>{
   const s=document.getElementById('sb'),m=document.getElementById('main');
@@ -539,7 +646,7 @@ function hidePrev(id){document.getElementById(id)?.classList.remove('show');}
 
 /* ─── Dashboard ──────────────────────────────────────── */
 async function loadDash(){
-  for(const[col,elId]of[[C.t,'cT'],[C.g,'cG'],[C.e,'cE']]){
+  for(const[col,elId]of[[C.t,'cT'],[C.c,'cC'],[C.h,'cH'],[C.g,'cG'],[C.e,'cE']]){
     try{const s=await getDocs(collection(db,col));document.getElementById(elId).textContent=s.size;}
     catch{document.getElementById(elId).textContent='—';}
   }
@@ -619,6 +726,115 @@ window.saveTour=async function(){
     toast(id?'Package updated! Changes live on tours.html':'Package added! Now visible on tours.html','ok');
     document.getElementById('tMov').classList.remove('open');
     loadTours();
+  }catch(e){toast('Error: '+e.message,'err');}
+};
+
+/* ══════════════════════════════════════════════════════
+   VEHICLES CRUD
+   Changes → triporbit_cars → appear on cars.html
+══════════════════════════════════════════════════════ */
+let cCache=[];
+async function loadCars(){
+  const tb=document.getElementById('cBody');
+  tb.innerHTML='<tr><td colspan="6" class="l-row"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+  try{const s=await getDocs(collection(db,C.c));cCache=[];s.forEach(d=>cCache.push({id:d.id,...d.data()}));cCache.sort((a,b)=>(parseInt(a.order)||99)-(parseInt(b.order)||99));}
+  catch{cCache=[];}
+  document.getElementById('cCnt').textContent='('+cCache.length+')';
+  if(!cCache.length){tb.innerHTML='<tr><td colspan="6" class="e-row"><i class="fas fa-car"></i>No vehicles yet. Click "Add New Vehicle".</td></tr>';return;}
+  tb.innerHTML=cCache.map(c=>`<tr>
+    <td>${c.image?`<img src="${c.image}" class="tt" onerror="this.style.display='none'" alt=""/>`:'<span style="color:var(--t3);font-size:11px">No image</span>'}</td>
+    <td style="font-weight:600">${c.name||'—'}</td>
+    <td style="color:var(--t2)">${c.sub||'—'}</td>
+    <td>${c.featured?'<span class="bdg bdg-confirmed">Yes</span>':'—'}</td>
+    <td style="color:var(--t2)">${c.order||1}</td>
+    <td><div class="acts">
+      <button class="ab ab-e" title="Edit this vehicle" onclick="openCM('${c.id}')"><i class="fas fa-edit"></i></button>
+      <button class="ab ab-d" title="Delete this vehicle" onclick="del(C_c,'${c.id}',loadCars)"><i class="fas fa-trash"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+window.openCM=function(id){
+  clr(['cId','cName','cSub','cImg','cSpecs','cDesc','cOrder']);hidePrev('cImgP');
+  if(id){
+    const c=cCache.find(x=>x.id===id);if(!c)return;
+    sv('cId',id);sv('cName',c.name);sv('cSub',c.sub);sv('cImg',c.image||'');
+    sv('cSpecs',(c.specs||[]).join(', '));sv('cDesc',c.desc||c.description||'');
+    sv('cFeat',String(!!c.featured));sv('cOrder',c.order||1);
+    if(c.image){const p=document.getElementById('cImgP');p.src=c.image;p.classList.add('show');}
+    document.getElementById('cMTitle').textContent='Edit Vehicle';
+  } else { document.getElementById('cMTitle').textContent='Add New Vehicle'; }
+  document.getElementById('cMov').classList.add('open');
+};
+window.saveCar=async function(){
+  if(!v('cName')){toast('Vehicle name required','err');return;}
+  const id=v('cId');
+  const data={
+    name:v('cName'),sub:v('cSub'),image:v('cImg'),
+    specs:v('cSpecs').split(',').map(s=>s.trim()).filter(Boolean),
+    desc:v('cDesc'),featured:v('cFeat')==='true',
+    order:parseInt(v('cOrder'))||1,updatedAt:serverTimestamp()
+  };
+  try{
+    if(id) await updateDoc(doc(db,C.c,id),data);
+    else{ data.createdAt=serverTimestamp(); await addDoc(collection(db,C.c),data); }
+    toast(id?'Vehicle updated! Changes live on cars.html':'Vehicle added! Now visible on cars.html','ok');
+    document.getElementById('cMov').classList.remove('open');
+    loadCars();
+  }catch(e){toast('Error: '+e.message,'err');}
+};
+
+/* ══════════════════════════════════════════════════════
+   HOTELS CRUD
+   Changes → triporbit_hotels → appear on hotels.html
+══════════════════════════════════════════════════════ */
+let hCache=[];
+async function loadHotels(){
+  const tb=document.getElementById('hBody');
+  tb.innerHTML='<tr><td colspan="7" class="l-row"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+  try{const s=await getDocs(collection(db,C.h));hCache=[];s.forEach(d=>hCache.push({id:d.id,...d.data()}));hCache.sort((a,b)=>(parseInt(a.order)||99)-(parseInt(b.order)||99));}
+  catch{hCache=[];}
+  document.getElementById('hCnt').textContent='('+hCache.length+')';
+  if(!hCache.length){tb.innerHTML='<tr><td colspan="7" class="e-row"><i class="fas fa-hotel"></i>No hotels yet. Click "Add New Hotel".</td></tr>';return;}
+  tb.innerHTML=hCache.map(h=>`<tr>
+    <td>${h.image?`<img src="${h.image}" class="tt" onerror="this.style.display='none'" alt=""/>`:'<span style="color:var(--t3);font-size:11px">No image</span>'}</td>
+    <td style="font-weight:600">${h.name||'—'}</td>
+    <td style="color:var(--t2)">${h.sub||'—'}</td>
+    <td style="color:var(--t2)">${h.price||'—'}</td>
+    <td>${h.featured?'<span class="bdg bdg-confirmed">Yes</span>':'—'}</td>
+    <td style="color:var(--t2)">${h.order||1}</td>
+    <td><div class="acts">
+      <button class="ab ab-e" title="Edit this hotel" onclick="openHM('${h.id}')"><i class="fas fa-edit"></i></button>
+      <button class="ab ab-d" title="Delete this hotel" onclick="del(C_h,'${h.id}',loadHotels)"><i class="fas fa-trash"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+window.openHM=function(id){
+  clr(['hId','hName','hSub','hPrice','hImg','hSpecs','hDesc','hOrder']);hidePrev('hImgP');
+  if(id){
+    const h=hCache.find(x=>x.id===id);if(!h)return;
+    sv('hId',id);sv('hName',h.name);sv('hSub',h.sub);sv('hPrice',h.price||'');sv('hImg',h.image||'');
+    sv('hSpecs',(h.specs||[]).join(', '));sv('hDesc',h.desc||h.description||'');
+    sv('hFeat',String(!!h.featured));sv('hOrder',h.order||1);
+    if(h.image){const p=document.getElementById('hImgP');p.src=h.image;p.classList.add('show');}
+    document.getElementById('hMTitle').textContent='Edit Hotel';
+  } else { document.getElementById('hMTitle').textContent='Add New Hotel'; }
+  document.getElementById('hMov').classList.add('open');
+};
+window.saveHotel=async function(){
+  if(!v('hName')){toast('Hotel name required','err');return;}
+  const id=v('hId');
+  const data={
+    name:v('hName'),sub:v('hSub'),price:v('hPrice'),image:v('hImg'),
+    specs:v('hSpecs').split(',').map(s=>s.trim()).filter(Boolean),
+    desc:v('hDesc'),featured:v('hFeat')==='true',
+    order:parseInt(v('hOrder'))||1,updatedAt:serverTimestamp()
+  };
+  try{
+    if(id) await updateDoc(doc(db,C.h,id),data);
+    else{ data.createdAt=serverTimestamp(); await addDoc(collection(db,C.h),data); }
+    toast(id?'Hotel updated! Changes live on hotels.html':'Hotel added! Now visible on hotels.html','ok');
+    document.getElementById('hMov').classList.remove('open');
+    loadHotels();
   }catch(e){toast('Error: '+e.message,'err');}
 };
 
@@ -721,7 +937,7 @@ window.viewEnq=function(rec){
 
 /* ─── Shared CRUD ─────────────────────────────────── */
 // Expose collection keys for inline onclick handlers
-window.C_t=C.t; window.C_g=C.g; window.C_e=C.e;
+window.C_t=C.t; window.C_c=C.c; window.C_h=C.h; window.C_g=C.g; window.C_e=C.e;
 
 window.updStatus=async function(col,id,status){
   try{await updateDoc(doc(db,col,id),{status,updatedAt:serverTimestamp()});toast('Status updated','ok');}
