@@ -1,5 +1,5 @@
 /* ================================================================
-   TRIPORBIT — script.js  (Firebase Connected — v2)
+   TIRANGA TOUR & TRAVELS — script.js  (Firebase Connected — v2)
    All public pages pull live data from Firestore.
    Admin panel writes → pages reflect changes instantly on reload.
    ================================================================ */
@@ -19,8 +19,8 @@
   };
 
   var COLS = {
-    tours: 'triporbit_tours', cars: 'triporbit_cars', hotels: 'triporbit_hotels',
-    gallery: 'triporbit_gallery', enquiries: 'triporbit_enquiries'
+    tours: 'tiranga_tours', cars: 'tiranga_cars', hotels: 'tiranga_hotels',
+    gallery: 'tiranga_gallery', enquiries: 'tiranga_enquiries'
   };
 
   /* ── DEFAULTS ─────────────────────────────────────────────── */

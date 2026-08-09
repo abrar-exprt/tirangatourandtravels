@@ -1,0 +1,80 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Helper: is this request from the signed-in admin? ───
+    // The admin panel (admin.html) signs in with Firebase Auth
+    // (email/password) before writing. No one else has an account.
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // ─── Public content: tours, vehicles, hotels, gallery, settings ───
+    // Anyone can READ (needed so the public website can display them).
+    // Only the signed-in admin can create / update / delete.
+    match /tiranga_tours/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /tiranga_cars/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /tiranga_hotels/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /tiranga_gallery/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /tiranga_settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ─── Enquiries: customer contact-form submissions ───
+    // This is the sensitive collection — it holds names, phone numbers,
+    // emails and travel details. It must NOT be publicly readable.
+    //
+    //   - Anyone may CREATE a new enquiry (the public contact form is
+    //     used by visitors who are never signed in), but the write is
+    //     validated: required fields must be present, of the right
+    //     type, and kept within sane length limits to block spam /
+    //     junk / oversized payloads.
+    //   - Only the signed-in admin may READ, UPDATE or DELETE —
+    //     nobody else can browse customer data.
+    match /tiranga_enquiries/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['name', 'phone'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() < 100
+                    && request.resource.data.phone is string
+                    && request.resource.data.phone.size() > 0
+                    && request.resource.data.phone.size() < 20
+                    && (!('email' in request.resource.data)
+                        || (request.resource.data.email is string
+                            && request.resource.data.email.size() < 150))
+                    && (!('message' in request.resource.data)
+                        || (request.resource.data.message is string
+                            && request.resource.data.message.size() < 2000))
+                    && (!('travellers' in request.resource.data)
+                        || request.resource.data.travellers is string
+                        || request.resource.data.travellers is number);
+
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ─── Deny everything else by default ───
+    // Any collection not explicitly listed above is fully locked —
+    // no reads, no writes, from anyone. This stops an attacker who
+    // discovers/guesses a collection name from reading or writing to it.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

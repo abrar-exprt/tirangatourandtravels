@@ -378,13 +378,13 @@ input,select,textarea{font-family:inherit;box-sizing:border-box}
       </div>
       <div class="set-note">
         <strong>Firebase Collections connected to public pages:</strong><br/>
-        <code>triporbit_tours</code> &rarr; tours.html + homepage &nbsp;&bull;&nbsp;
-        <code>triporbit_cars</code> &rarr; cars.html &nbsp;&bull;&nbsp;
-        <code>triporbit_hotels</code> &rarr; hotels.html &nbsp;&bull;&nbsp;
-        <code>triporbit_gallery</code> &rarr; homepage gallery &nbsp;&bull;&nbsp;
-        <code>triporbit_enquiries</code> &rarr; contact form submissions<br/><br/>
+        <code>tiranga_tours</code> &rarr; tours.html + homepage &nbsp;&bull;&nbsp;
+        <code>tiranga_cars</code> &rarr; cars.html &nbsp;&bull;&nbsp;
+        <code>tiranga_hotels</code> &rarr; hotels.html &nbsp;&bull;&nbsp;
+        <code>tiranga_gallery</code> &rarr; homepage gallery &nbsp;&bull;&nbsp;
+        <code>tiranga_enquiries</code> &rarr; contact form submissions<br/><br/>
         <strong>How changes appear on website:</strong> Save a tour/vehicle/hotel/image here &rarr; visitor refreshes the page &rarr; new data appears automatically.<br/><br/>
-        <strong>Firestore Rules:</strong> <code>allow read: if true; allow write: if request.auth != null;</code>
+        <strong>Firestore Rules:</strong> Use the hardened per-collection rules in <code>firestore.rules</code> (provided separately) &mdash; public content is read-only to visitors, only the signed-in admin can write, and customer enquiries are locked so only the admin can read them.
       </div>
     </div>
 
@@ -573,8 +573,8 @@ const app  = initializeApp(FB);
 const db   = getFirestore(app);
 const auth = getAuth(app);
 const C = {
-  t:'triporbit_tours', c:'triporbit_cars', h:'triporbit_hotels',
-  g:'triporbit_gallery', e:'triporbit_enquiries', s:'triporbit_settings'
+  t:'tiranga_tours', c:'tiranga_cars', h:'tiranga_hotels',
+  g:'tiranga_gallery', e:'tiranga_enquiries', s:'tiranga_settings'
 };
 
 /* ─── Loader ──────────────────────────────────────────── */
@@ -666,7 +666,7 @@ async function loadDash(){
 
 /* ══════════════════════════════════════════════════════
    TOUR PACKAGES CRUD
-   Changes → triporbit_tours → appear on tours.html + homepage
+   Changes → tiranga_tours → appear on tours.html + homepage
 ══════════════════════════════════════════════════════ */
 let tCache=[];
 async function loadTours(){
@@ -731,7 +731,7 @@ window.saveTour=async function(){
 
 /* ══════════════════════════════════════════════════════
    VEHICLES CRUD
-   Changes → triporbit_cars → appear on cars.html
+   Changes → tiranga_cars → appear on cars.html
 ══════════════════════════════════════════════════════ */
 let cCache=[];
 async function loadCars(){
@@ -785,7 +785,7 @@ window.saveCar=async function(){
 
 /* ══════════════════════════════════════════════════════
    HOTELS CRUD
-   Changes → triporbit_hotels → appear on hotels.html
+   Changes → tiranga_hotels → appear on hotels.html
 ══════════════════════════════════════════════════════ */
 let hCache=[];
 async function loadHotels(){
@@ -840,7 +840,7 @@ window.saveHotel=async function(){
 
 /* ══════════════════════════════════════════════════════
    GALLERY CRUD
-   Changes → triporbit_gallery → appear on homepage gallery
+   Changes → tiranga_gallery → appear on homepage gallery
 ══════════════════════════════════════════════════════ */
 let gCache=[];
 async function loadGallery(){
