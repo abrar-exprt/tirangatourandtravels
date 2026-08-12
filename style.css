@@ -978,6 +978,27 @@ footer { background: var(--charcoal); color: rgba(255,255,255,.6); }
   .call-tip { display: none; }
   .sct { left: 14px; bottom: 14px; }
 }
+/* ── FAQ (AEO/GEO) ─────────────────────────────────────── */
+.faq-list { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq-item {
+  background: var(--card); border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm); border: 1px solid var(--border);
+  overflow: hidden;
+}
+.faq-item summary {
+  cursor: pointer; list-style: none; padding: 18px 22px;
+  font-family: 'Cormorant Garamond', serif; font-weight: 700;
+  font-size: clamp(16px,2vw,19px); color: var(--charcoal);
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+  font-size: 13px; color: var(--royal); transition: transform .3s; flex-shrink: 0;
+}
+.faq-item[open] summary::after { transform: rotate(180deg); }
+.faq-item .faq-a { padding: 0 22px 20px; color: var(--text2); font-size: 14px; line-height: 1.8; }
+
 @media(max-width:580px){
   .trust-grid { grid-template-columns: 1fr 1fr; }
   .gal-grid { columns: 1; }
