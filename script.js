@@ -671,6 +671,16 @@
     });
   });
 
+  // Hide floating buttons on phones while a booking form is on screen
+  if ('IntersectionObserver' in window) {
+    var bkVis = new Set();
+    var bkObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(en) { en.isIntersecting ? bkVis.add(en.target) : bkVis.delete(en.target); });
+      document.body.classList.toggle('bk-visible', bkVis.size > 0);
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.bk-card').forEach(function(el) { bkObs.observe(el); });
+  }
+
   /* ══════════════════════════════════════════════════
      PAGE INIT
   ══════════════════════════════════════════════════ */

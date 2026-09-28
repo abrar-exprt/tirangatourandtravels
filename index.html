@@ -189,33 +189,33 @@
       <p class="bk-sub">Fill in your details and tap send &mdash; WhatsApp opens with your enquiry ready to go.</p>
       <form id="bookingForm" class="bk-form" data-wa-form data-source="home_hero" novalidate>
         <div class="fg"><label for="bkName">Full Name *</label><input id="bkName" name="name" type="text" autocomplete="name" placeholder="Your name" data-label="Name" required/></div>
-        <div class="fg"><label for="bkPhone">Phone / WhatsApp *</label><input id="bkPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210" data-label="Phone" required/></div>
+        <div class="fg"><label for="bkPhone">Phone / WhatsApp *</label><input id="bkPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="98765 43210" data-label="Phone" required/></div>
         <div class="fg"><label for="bkDate">Travel Date *</label><input id="bkDate" name="date" type="date" data-label="Travel Date" required/></div>
         <div class="fg"><label for="bkDays">Duration</label>
           <select id="bkDays" name="duration" data-label="Duration">
-            <option value="">Select duration</option>
-            <option>2 Nights / 3 Days</option><option>3 Nights / 4 Days</option>
-            <option>4 Nights / 5 Days</option><option>5 Nights / 6 Days</option>
-            <option>6 Nights / 7 Days</option><option>7+ Nights</option><option>Not sure yet</option>
+            <option value="">Select</option>
+            <option value="2 Nights / 3 Days">2N / 3D</option><option value="3 Nights / 4 Days">3N / 4D</option>
+            <option value="4 Nights / 5 Days">4N / 5D</option><option value="5 Nights / 6 Days">5N / 6D</option>
+            <option value="6 Nights / 7 Days">6N / 7D</option><option value="7+ Nights">7N+</option><option>Not sure</option>
           </select></div>
         <div class="fg"><label for="bkAdults">Adults</label><input id="bkAdults" name="adults" type="number" min="1" max="60" value="2" inputmode="numeric" data-label="Adults"/></div>
         <div class="fg"><label for="bkKids">Children</label><input id="bkKids" name="children" type="number" min="0" max="30" value="0" inputmode="numeric" data-label="Children"/></div>
         <div class="fg"><label for="bkType">Trip Type</label>
           <select id="bkType" name="tripType" data-label="Trip Type">
-            <option value="">Select trip type</option>
-            <option>Family Tour</option><option>Honeymoon Package</option>
-            <option>Gurez Valley Tour</option><option>Adventure / Trekking</option>
-            <option>Group Tour</option><option>Taxi Only</option>
-            <option>Hotel Booking Only</option><option>Custom Itinerary</option>
+            <option value="">Select</option>
+            <option value="Family Tour">Family</option><option value="Honeymoon Package">Honeymoon</option>
+            <option value="Gurez Valley Tour">Gurez Valley</option><option value="Adventure / Trekking">Adventure</option>
+            <option value="Group Tour">Group</option><option>Taxi Only</option>
+            <option value="Hotel Booking Only">Hotel Only</option><option value="Custom Itinerary">Custom</option>
           </select></div>
         <div class="fg"><label for="bkHotel">Stay Preference</label>
           <select id="bkHotel" name="hotel" data-label="Stay">
-            <option value="">Select stay</option>
-            <option>Budget</option><option>Standard (3 Star)</option>
-            <option>Deluxe (4 Star)</option><option>Luxury (5 Star)</option>
+            <option value="">Select</option>
+            <option>Budget</option><option value="Standard (3 Star)">3 Star</option>
+            <option value="Deluxe (4 Star)">4 Star</option><option value="Luxury (5 Star)">5 Star</option>
             <option>Houseboat</option><option>Homestay</option>
           </select></div>
-        <div class="fg bk-full"><label for="bkMsg">Places or Special Requests</label><textarea id="bkMsg" name="message" rows="2" placeholder="e.g. Gulmarg, Pahalgam, airport pickup, veg meals" data-label="Requests"></textarea></div>
+        <div class="fg bk-full"><label for="bkMsg">Places or Special Requests</label><textarea id="bkMsg" name="message" rows="2" placeholder="e.g. Gulmarg, Pahalgam, airport pickup" data-label="Requests"></textarea></div>
         <button type="submit" class="btn btn-wa bk-send bk-full"><i class="fab fa-whatsapp"></i> Send Enquiry</button>
         <p class="bk-note bk-full"><i class="fas fa-clock"></i> Free customised quote within 2 hours</p>
       </form>
