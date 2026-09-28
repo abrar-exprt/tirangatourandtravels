@@ -595,6 +595,83 @@
   }
 
   /* ══════════════════════════════════════════════════
+     BOOKING FORMS → WHATSAPP
+     Any <form data-wa-form> collects its filled fields,
+     saves a copy to Firestore and opens WhatsApp chat.
+  ══════════════════════════════════════════════════ */
+  function fmtDate(v) {
+    var d = new Date(v + 'T00:00:00');
+    if (isNaN(d)) return v;
+    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+  document.querySelectorAll('form[data-wa-form]').forEach(function(form) {
+    var dIn = form.querySelector('input[type="date"]');
+    if (dIn) {
+      var t = new Date(); t.setMinutes(t.getMinutes() - t.getTimezoneOffset());
+      dIn.min = t.toISOString().slice(0, 10);
+    }
+    form.querySelectorAll('input,select,textarea').forEach(function(el) {
+      el.addEventListener('input', function() { el.classList.remove('bk-err'); });
+      el.addEventListener('change', function() { el.classList.remove('bk-err'); });
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Required fields
+      var firstBad = null;
+      form.querySelectorAll('[required]').forEach(function(el) {
+        var empty = !String(el.value || '').trim();
+        el.classList.toggle('bk-err', empty);
+        if (empty && !firstBad) firstBad = el;
+      });
+      if (firstBad) {
+        toast('Please fill in ' + (firstBad.getAttribute('data-label') || 'all required fields') + '.', 'err');
+        firstBad.focus(); return;
+      }
+      var ph = form.querySelector('[name="phone"]');
+      if (ph && ph.value.replace(/\D/g, '').length < 10) {
+        ph.classList.add('bk-err');
+        toast('Please enter a valid phone number (10+ digits).', 'err');
+        ph.focus(); return;
+      }
+
+      // Build WhatsApp message from filled fields (in form order)
+      var lines = ['*New Booking Enquiry - Tiranga Tour & Travels*', ''];
+      var data  = { source: form.getAttribute('data-source') || 'booking_form', status: 'new', page: location.pathname };
+      Array.prototype.forEach.call(form.elements, function(el) {
+        if (!el.name || el.type === 'submit' || el.type === 'button') return;
+        var v = String(el.value || '').trim();
+        if (!v) return;
+        data[el.name] = v;
+        lines.push('*' + (el.getAttribute('data-label') || el.name) + ':* ' + (el.type === 'date' ? fmtDate(v) : v));
+      });
+      lines.push('', 'Please share the best package and price. Thank you!');
+      var url = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(lines.join('\n'));
+
+      // Keep a copy in admin enquiries (non-blocking)
+      onFB(function(db, f) {
+        try {
+          data.createdAt = f.serverTimestamp();
+          f.addDoc(f.collection(db, COLS.enquiries), data).catch(function() {});
+        } catch (err) {}
+      });
+
+      var btn = form.querySelector('[type="submit"]');
+      var html = btn ? btn.innerHTML : '';
+      if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening WhatsApp…'; }
+      toast('Opening WhatsApp with your details…', 'ok');
+
+      var win = window.open(url, '_blank');
+      if (!win) window.location.href = url;   // popup blocked / in-app browser
+
+      setTimeout(function() {
+        if (btn) { btn.disabled = false; btn.innerHTML = html; }
+      }, 2500);
+    });
+  });
+
+  /* ══════════════════════════════════════════════════
      PAGE INIT
   ══════════════════════════════════════════════════ */
   var page = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
